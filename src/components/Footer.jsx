@@ -1,84 +1,124 @@
 import React from 'react';
 import { personalInfo } from '../data/portfolio';
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
+import { Mail } from 'lucide-react';
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
-  // As per instructions, "© 2026 ABHILASH GOLLAPALLY" is suggested, we use a dynamic year or fixed as requested. Let's use 2026.
-  
+  const year = new Date().getFullYear();
+
   return (
-    <footer style={{ 
-      backgroundColor: 'var(--bg-secondary)', 
-      borderTop: 'var(--border-subtle)',
-      padding: '4rem 0 2rem 0' 
+    <footer style={{
+      borderTop: '1px solid rgba(255,255,255,0.07)',
+      background: 'var(--bg-secondary)',
+      padding: 'var(--sp-12) 0 var(--sp-8)',
     }}>
       <div className="container">
-        
-        <div style={{ 
-          display: 'flex', 
-          flexDirection: 'column', 
-          gap: '2rem',
-          marginBottom: '4rem'
-        }} className="footer-layout">
-          
-          <div>
-            <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 'bold', fontSize: '1.2rem', marginBottom: '0.5rem' }}>
-              ABHILASH<span className="accent-text">.</span>
-            </div>
-            <div style={{ color: 'var(--text-secondary)', marginBottom: '0.25rem' }}>{personalInfo.title}</div>
-            <div style={{ color: 'var(--text-secondary)' }}>{personalInfo.location}</div>
-          </div>
-          
-          <div style={{ display: 'flex', gap: '2rem' }}>
-            <a href={personalInfo.github} target="_blank" rel="noopener noreferrer" className="footer-link">GitHub</a>
-            <a href={personalInfo.linkedin} target="_blank" rel="noopener noreferrer" className="footer-link">LinkedIn</a>
-            <a href={`mailto:${personalInfo.email}`} className="footer-link">Email</a>
-          </div>
-          
-        </div>
-        
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
-          alignItems: 'center',
-          paddingTop: '2rem',
-          borderTop: 'var(--border-subtle)',
+
+        {/* Top row */}
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'flex-start',
           flexWrap: 'wrap',
-          gap: '1rem'
+          gap: 'var(--sp-8)',
+          marginBottom: 'var(--sp-10)',
         }}>
-          <div className="mono-text" style={{ color: 'var(--text-secondary)', fontSize: '0.75rem' }}>
-            © 2026 ABHILASH GOLLAPALLY
+          {/* Brand */}
+          <div>
+            <div style={{
+              fontFamily: 'var(--font-display)',
+              fontSize: 'var(--text-2xl)',
+              fontWeight: '800',
+              letterSpacing: '-0.03em',
+              color: 'var(--text-primary)',
+              marginBottom: 'var(--sp-2)',
+            }}>
+              Abhilash<span style={{ color: 'var(--accent)' }}>.</span>
+            </div>
+            <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-muted)', maxWidth: '300px', lineHeight: '1.6' }}>
+              Aspiring Software Engineer & CSE (Cyber Security) Undergraduate
+              based in Hyderabad, India.
+            </p>
           </div>
-          <div className="mono-text accent-text" style={{ fontSize: '0.75rem' }}>
-            SYS.READY
+
+          {/* Links */}
+          <div style={{ display: 'flex', gap: 'var(--sp-10)', flexWrap: 'wrap' }}>
+            <div>
+              <div style={{ fontSize: 'var(--text-xs)', fontWeight: '700', color: 'var(--text-muted)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 'var(--sp-4)' }}>
+                Navigate
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sp-3)' }}>
+                {['About', 'Skills', 'Projects', 'Education', 'Contact'].map((item) => (
+                  <a
+                    key={item}
+                    href={`#${item.toLowerCase()}`}
+                    style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', transition: 'color 0.2s' }}
+                    onMouseEnter={e => e.currentTarget.style.color = 'var(--text-primary)'}
+                    onMouseLeave={e => e.currentTarget.style.color = 'var(--text-secondary)'}
+                  >
+                    {item}
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <div style={{ fontSize: 'var(--text-xs)', fontWeight: '700', color: 'var(--text-muted)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 'var(--sp-4)' }}>
+                Connect
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sp-3)' }}>
+                <a href="https://github.com/abhilash-210" target="_blank" rel="noopener noreferrer"
+                  style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', transition: 'color 0.2s' }}
+                  onMouseEnter={e => e.currentTarget.style.color = 'var(--text-primary)'}
+                  onMouseLeave={e => e.currentTarget.style.color = 'var(--text-secondary)'}
+                >
+                  <FaGithub size={14} /> GitHub
+                </a>
+                <a href="https://linkedin.com/in/abhilash210" target="_blank" rel="noopener noreferrer"
+                  style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', transition: 'color 0.2s' }}
+                  onMouseEnter={e => e.currentTarget.style.color = 'var(--text-primary)'}
+                  onMouseLeave={e => e.currentTarget.style.color = 'var(--text-secondary)'}
+                >
+                  <FaLinkedin size={14} /> LinkedIn
+                </a>
+                <a href="mailto:abilashg745@gmail.com"
+                  style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', transition: 'color 0.2s' }}
+                  onMouseEnter={e => e.currentTarget.style.color = 'var(--text-primary)'}
+                  onMouseLeave={e => e.currentTarget.style.color = 'var(--text-secondary)'}
+                >
+                  <Mail size={14} /> Email
+                </a>
+              </div>
+            </div>
           </div>
         </div>
-        
+
+        {/* Bottom row */}
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: 'var(--sp-3)',
+          paddingTop: 'var(--sp-6)',
+          borderTop: '1px solid rgba(255,255,255,0.06)',
+        }}>
+          <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-muted)' }}>
+            © {year} Abhilash Gollapally. All rights reserved.
+          </span>
+          <span style={{
+            fontSize: 'var(--text-xs)',
+            color: 'var(--text-muted)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.4rem',
+          }}>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--accent)', display: 'inline-block' }} />
+            Open to opportunities
+          </span>
+        </div>
+
       </div>
-      
-      <style>{`
-        .footer-layout {
-          flex-direction: row !important;
-          justify-content: space-between !important;
-          align-items: flex-end !important;
-        }
-        
-        @media (max-width: 768px) {
-          .footer-layout {
-            flex-direction: column !important;
-            align-items: flex-start !important;
-          }
-        }
-        
-        .footer-link {
-          color: var(--text-primary);
-          font-family: var(--font-mono);
-          font-size: 0.9rem;
-          transition: color 0.3s;
-        }
-        .footer-link:hover {
-          color: var(--accent);
-        }
-      `}</style>
     </footer>
   );
 };

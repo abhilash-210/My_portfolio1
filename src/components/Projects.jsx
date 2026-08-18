@@ -1,156 +1,188 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { allProjects } from '../data/portfolio';
+import { ExternalLink, ChevronDown, ChevronUp } from 'lucide-react';
+
+// Gradient pairs for project cards
+const gradients = [
+  'linear-gradient(135deg, rgba(0,217,192,0.15) 0%, rgba(96,165,250,0.08) 100%)',
+  'linear-gradient(135deg, rgba(167,139,250,0.15) 0%, rgba(244,114,182,0.08) 100%)',
+  'linear-gradient(135deg, rgba(251,146,60,0.15) 0%, rgba(250,204,21,0.08) 100%)',
+  'linear-gradient(135deg, rgba(52,211,153,0.15) 0%, rgba(0,217,192,0.08) 100%)',
+  'linear-gradient(135deg, rgba(244,114,182,0.15) 0%, rgba(167,139,250,0.08) 100%)',
+  'linear-gradient(135deg, rgba(250,204,21,0.15) 0%, rgba(251,146,60,0.08) 100%)',
+];
+
+const accentColors = ['#00d9c0', '#a78bfa', '#fb923c', '#34d399', '#f472b6', '#facc15'];
+
+const ProjectCard = ({ project, index }) => {
+  const [expanded, setExpanded] = useState(false);
+  const accent = accentColors[index % accentColors.length];
+  const gradient = gradients[index % gradients.length];
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.55, delay: index * 0.07 }}
+      className="card"
+      style={{
+        overflow: 'hidden',
+        display: 'flex',
+        flexDirection: 'column',
+      }}
+    >
+      {/* Colored top strip */}
+      <div style={{
+        height: '4px',
+        background: accent,
+        opacity: 0.8,
+      }} />
+
+      {/* Card body */}
+      <div style={{ padding: 'var(--sp-6)', flex: 1, display: 'flex', flexDirection: 'column' }}>
+
+        {/* Header row */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 'var(--sp-4)' }}>
+          <div style={{
+            width: '44px', height: '44px',
+            borderRadius: 'var(--radius-sm)',
+            background: gradient,
+            border: `1px solid ${accent}30`,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontFamily: 'var(--font-display)',
+            fontWeight: '800',
+            fontSize: 'var(--text-lg)',
+            color: accent,
+          }}>
+            {project.id}
+          </div>
+          <motion.button
+            onClick={() => setExpanded(!expanded)}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            style={{
+              background: 'rgba(255,255,255,0.05)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              borderRadius: '6px',
+              color: 'var(--text-muted)',
+              cursor: 'pointer',
+              padding: '4px 8px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              fontSize: 'var(--text-xs)',
+              fontWeight: '600',
+            }}
+          >
+            {expanded ? <><ChevronUp size={12} /> Less</> : <><ChevronDown size={12} /> More</>}
+          </motion.button>
+        </div>
+
+        {/* Title + Subtitle */}
+        <div style={{ marginBottom: 'var(--sp-3)' }}>
+          <h3 style={{
+            fontSize: 'var(--text-xl)',
+            fontWeight: '700',
+            fontFamily: 'var(--font-display)',
+            color: 'var(--text-primary)',
+            letterSpacing: '-0.015em',
+            marginBottom: 'var(--sp-1)',
+            lineHeight: '1.3',
+          }}>
+            {project.title}
+          </h3>
+          <p style={{
+            fontSize: 'var(--text-sm)',
+            color: accent,
+            fontWeight: '500',
+            opacity: 0.9,
+          }}>
+            {project.subtitle}
+          </p>
+        </div>
+
+        {/* Description */}
+        <p className="body-text" style={{ fontSize: 'var(--text-sm)', marginBottom: 'var(--sp-4)', lineHeight: '1.7', flex: 1 }}>
+          {project.description}
+        </p>
+
+        {/* Capabilities (expandable) */}
+        <AnimatePresence>
+          {expanded && project.capabilities && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.25 }}
+              style={{ overflow: 'hidden', marginBottom: 'var(--sp-4)' }}
+            >
+              <div style={{ paddingTop: 'var(--sp-2)', borderTop: '1px solid rgba(255,255,255,0.06)', marginBottom: 'var(--sp-3)' }}>
+                <div style={{ fontSize: 'var(--text-xs)', fontWeight: '600', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 'var(--sp-3)' }}>
+                  Key Features
+                </div>
+                <ul style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(160px, 100%), 1fr))', gap: 'var(--sp-2)' }}>
+                  {project.capabilities.map((cap) => (
+                    <li key={cap} style={{ display: 'flex', alignItems: 'flex-start', gap: '6px', fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>
+                      <span style={{ color: accent, marginTop: '3px', fontSize: '10px', flexShrink: 0 }}>◆</span>
+                      {cap}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Tech badges */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--sp-2)', marginTop: 'auto' }}>
+          {project.technology.map((tech) => (
+            <span key={tech} className="badge" style={{ fontSize: '0.7rem' }}>
+              {tech}
+            </span>
+          ))}
+        </div>
+      </div>
+    </motion.div>
+  );
+};
 
 const Projects = () => {
   return (
-    <section id="projects" className="section" style={{ backgroundColor: 'var(--bg-secondary)' }}>
+    <section id="projects" className="section section-alt">
       <div className="container">
-        <motion.div 
+
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-          className="section-header"
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.5 }}
+          style={{ marginBottom: 'var(--sp-12)' }}
         >
-          <span className="section-number">03 / SELECTED WORK</span>
+          <div className="section-label">Portfolio</div>
+          <h2 className="section-heading" style={{ marginTop: 'var(--sp-3)' }}>
+            Selected Projects
+          </h2>
+          <p className="body-text" style={{ marginTop: 'var(--sp-4)', maxWidth: '560px' }}>
+            Systems and applications I've designed and built across software engineering,
+            cybersecurity, AI, and connected hardware.
+          </p>
         </motion.div>
-        
-        <motion.h2 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="section-title" 
-          style={{ marginBottom: '1rem' }}
-        >
-          Things I've Built
-        </motion.h2>
-        
-        <motion.p 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          style={{ color: 'var(--text-secondary)', marginBottom: '4rem', maxWidth: '600px' }}
-        >
-          A selection of systems spanning software engineering, cybersecurity, AI, and connected applications.
-        </motion.p>
-        
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '6rem' }}>
+
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(min(320px, 100%), 1fr))',
+          gap: 'var(--sp-5)',
+        }}>
           {allProjects.map((project, index) => (
-            <motion.div 
-              key={project.id} 
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.7 }}
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr',
-                gap: '3rem',
-                alignItems: 'center',
-              }} 
-              className="flagship-grid"
-            >
-              
-              <div style={{ order: index % 2 === 0 ? 1 : 2 }} className="flagship-content">
-                <div className="mono-text accent-text" style={{ marginBottom: '1rem' }}>PROJECT {project.id}</div>
-                <h3 style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>{project.title}</h3>
-                <h4 style={{ fontSize: '1.2rem', color: 'var(--text-secondary)', fontWeight: '400', marginBottom: '2rem' }}>
-                  {project.subtitle}
-                </h4>
-                <p style={{ color: 'var(--text-secondary)', lineHeight: '1.8', marginBottom: '2rem' }}>
-                  {project.description}
-                </p>
-                
-                <div style={{ marginBottom: '2rem' }}>
-                  <div className="mono-text" style={{ color: 'var(--text-primary)', marginBottom: '1rem', fontSize: '0.8rem' }}>CAPABILITIES:</div>
-                  <ul style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
-                    {project.capabilities?.map(cap => (
-                      <li key={cap} style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                        <span className="accent-text" style={{ fontSize: '0.6rem' }}>■</span> {cap}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                  {project.technology.map(tech => (
-                    <span key={tech} className="mono-text" style={{ 
-                      padding: '0.3rem 0.6rem', 
-                      backgroundColor: 'var(--bg-primary)',
-                      border: 'var(--border-subtle)',
-                      fontSize: '0.75rem',
-                      color: 'var(--text-primary)'
-                    }}>
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              
-              <motion.div 
-                whileHover={{ scale: 1.02, rotateY: index % 2 === 0 ? 5 : -5, rotateX: 5 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                style={{ order: index % 2 === 0 ? 2 : 1, perspective: 1000 }} 
-                className="flagship-visual"
-              >
-                {/* Abstract UI Visualization Placeholder */}
-                <div style={{
-                  width: '100%',
-                  aspectRatio: '4/3',
-                  backgroundColor: 'var(--bg-primary)',
-                  border: 'var(--border-subtle)',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexDirection: 'column',
-                  transformStyle: 'preserve-3d'
-                }}>
-                  <motion.div 
-                    initial={{ scale: 1 }}
-                    whileHover={{ scale: 1.1, z: 50 }}
-                    transition={{ duration: 0.3 }}
-                    style={{ width: '100%', height: '100%', position: 'absolute', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}
-                  >
-                    <div className="mono-text accent-text" style={{ opacity: 0.5, marginBottom: '1rem', textAlign: 'center', padding: '0 1rem' }}>
-                      [ {project.title.toUpperCase()} ]
-                    </div>
-                    <div style={{ 
-                      width: '60%', 
-                      height: '2px', 
-                      backgroundColor: 'var(--border-subtle)',
-                      position: 'relative'
-                    }}>
-                      <div style={{ 
-                        position: 'absolute', 
-                        top: 0, left: 0, 
-                        height: '100%', 
-                        width: '30%', 
-                        backgroundColor: 'var(--accent)' 
-                      }}></div>
-                    </div>
-                  </motion.div>
-                </div>
-              </motion.div>
-              
-            </motion.div>
+            <ProjectCard key={project.id} project={project} index={index} />
           ))}
         </div>
-        
+
       </div>
-      
-      <style>{`
-        @media (min-width: 992px) {
-          .flagship-grid {
-            grid-template-columns: 1fr 1.2fr !important;
-          }
-          .flagship-content {
-            padding-right: 2rem;
-          }
-        }
-      `}</style>
     </section>
   );
 };

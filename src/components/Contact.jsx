@@ -1,79 +1,172 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { personalInfo } from '../data/portfolio';
-import { Mail } from 'lucide-react';
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
+import { Mail, MapPin, ArrowRight } from 'lucide-react';
+
+const contactLinks = [
+  {
+    id: 'email-link',
+    icon: Mail,
+    label: 'Email',
+    value: 'abilashg745@gmail.com',
+    href: `mailto:abilashg745@gmail.com`,
+    color: '#60a5fa',
+    bg: 'rgba(96,165,250,0.1)',
+    border: 'rgba(96,165,250,0.2)',
+  },
+  {
+    id: 'linkedin-link',
+    icon: FaLinkedin,
+    label: 'LinkedIn',
+    value: 'linkedin.com/in/abhilash210',
+    href: 'https://linkedin.com/in/abhilash210',
+    color: '#a78bfa',
+    bg: 'rgba(167,139,250,0.1)',
+    border: 'rgba(167,139,250,0.2)',
+  },
+  {
+    id: 'github-link',
+    icon: FaGithub,
+    label: 'GitHub',
+    value: 'github.com/abhilash-210',
+    href: 'https://github.com/abhilash-210',
+    color: '#34d399',
+    bg: 'rgba(52,211,153,0.1)',
+    border: 'rgba(52,211,153,0.2)',
+  },
+];
 
 const Contact = () => {
   return (
-    <section id="contact" className="section" style={{ paddingBottom: '6rem' }}>
+    <section id="contact" className="section">
       <div className="container">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-          className="section-header"
-        >
-          <span className="section-number">07 / CONTACT</span>
-        </motion.div>
-        
-        <div style={{ maxWidth: '800px' }}>
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', letterSpacing: '-0.02em', marginBottom: '2rem', lineHeight: '1.1' }}
+
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: 'var(--sp-16)',
+          alignItems: 'center',
+        }} className="contact-grid">
+
+          {/* Left: Heading & copy */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.6 }}
           >
-            Let's Build Something<br />
-            Meaningful<span className="accent-text">.</span>
-          </motion.h2>
-          
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', lineHeight: '1.8', marginBottom: '4rem', maxWidth: '600px' }}
-          >
-            Open to opportunities, collaborations, and conversations around software engineering, cybersecurity, AI, and technology.
-          </motion.p>
-          
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            style={{ display: 'flex', flexWrap: 'wrap', gap: '2rem', alignItems: 'center' }}
-          >
-            <motion.a 
-              href={`mailto:${personalInfo.email}`} 
-              className="btn btn-primary" 
-              style={{ padding: '1rem 2rem', fontSize: '1rem' }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Mail size={18} style={{ marginRight: '0.75rem' }} /> Email Me
-            </motion.a>
-            
-            <div style={{ display: 'flex', gap: '1.5rem' }}>
-              <a href={personalInfo.linkedin} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)', transition: 'color 0.3s', display: 'flex', alignItems: 'center', gap: '0.5rem', fontFamily: 'var(--font-mono)' }} className="contact-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-                LinkedIn
-              </a>
-              <a href={personalInfo.github} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)', transition: 'color 0.3s', display: 'flex', alignItems: 'center', gap: '0.5rem', fontFamily: 'var(--font-mono)' }} className="contact-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>
-                GitHub
-              </a>
+            <div className="section-label">Contact</div>
+            <h2 className="section-heading" style={{ marginTop: 'var(--sp-3)', marginBottom: 'var(--sp-5)' }}>
+              Let's Work{' '}
+              <span className="accent-text">Together</span>
+            </h2>
+            <p className="body-text" style={{ marginBottom: 'var(--sp-8)', fontSize: 'var(--text-lg)' }}>
+              I'm actively looking for Trainee Software Engineer opportunities.
+              If you have an opening or just want to connect, feel free to reach out —
+              I'd love to chat.
+            </p>
+
+            {/* Status badge */}
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 'var(--sp-2)',
+              padding: 'var(--sp-3) var(--sp-5)',
+              background: 'var(--accent-dim)',
+              border: '1px solid rgba(0,217,192,0.25)',
+              borderRadius: 'var(--radius-md)',
+              marginBottom: 'var(--sp-8)',
+            }}>
+              <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--accent)', display: 'inline-block', animation: 'pulse 2s infinite' }} />
+              <span style={{ fontSize: 'var(--text-sm)', fontWeight: '600', color: 'var(--accent)' }}>
+                Available for Opportunities
+              </span>
+            </div>
+
+            {/* Location */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)', fontSize: 'var(--text-sm)' }}>
+              <MapPin size={14} />
+              <span>Hyderabad, India</span>
             </div>
           </motion.div>
-          
+
+          {/* Right: Contact cards */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-80px' }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sp-4)' }}
+          >
+            {contactLinks.map((link, i) => {
+              const Icon = link.icon;
+              return (
+                <motion.a
+                  key={link.id}
+                  id={link.id}
+                  href={link.href}
+                  target={link.label !== 'Email' ? '_blank' : undefined}
+                  rel="noopener noreferrer"
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: 0.2 + i * 0.08 }}
+                  whileHover={{ scale: 1.02, x: 4 }}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 'var(--sp-4)',
+                    padding: 'var(--sp-5)',
+                    background: link.bg,
+                    border: `1px solid ${link.border}`,
+                    borderRadius: 'var(--radius-md)',
+                    textDecoration: 'none',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s',
+                  }}
+                >
+                  {/* Icon */}
+                  <div style={{
+                    width: '44px',
+                    height: '44px',
+                    borderRadius: 'var(--radius-sm)',
+                    background: `${link.bg}`,
+                    border: `1px solid ${link.border}`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                  }}>
+                    <Icon size={20} color={link.color} />
+                  </div>
+
+                  {/* Text */}
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: 'var(--text-xs)', fontWeight: '600', color: link.color, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '2px' }}>
+                      {link.label}
+                    </div>
+                    <div style={{ fontSize: 'var(--text-sm)', fontWeight: '500', color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', wordBreak: 'break-all' }}>
+                      {link.value}
+                    </div>
+                  </div>
+
+                  <ArrowRight size={16} color={link.color} style={{ flexShrink: 0, opacity: 0.6 }} />
+                </motion.a>
+              );
+            })}
+          </motion.div>
+
         </div>
       </div>
-      
+
       <style>{`
-        .contact-icon:hover {
-          color: var(--accent) !important;
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.4; }
+        }
+        @media (max-width: 768px) {
+          .contact-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </section>

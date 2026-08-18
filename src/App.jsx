@@ -10,7 +10,6 @@ import Certifications from './components/Certifications';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Background from './components/Background';
-import CustomCursor from './components/CustomCursor';
 
 function App() {
   const { scrollYProgress } = useScroll();
@@ -22,7 +21,7 @@ function App() {
 
   return (
     <div style={{ position: 'relative' }}>
-      <CustomCursor />
+      {/* Scroll progress bar */}
       <motion.div
         style={{
           position: 'fixed',
@@ -33,11 +32,14 @@ function App() {
           background: 'var(--accent)',
           transformOrigin: '0%',
           scaleX,
-          zIndex: 9999
+          zIndex: 9999,
+          borderRadius: '0 2px 2px 0',
         }}
       />
+
       <Background />
       <Navbar />
+
       <main>
         <Hero />
         <About />
@@ -47,6 +49,7 @@ function App() {
         <Certifications />
         <Contact />
       </main>
+
       <Footer />
     </div>
   );

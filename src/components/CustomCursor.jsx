@@ -50,43 +50,69 @@ const CustomCursor = () => {
   if (!isVisible) return null;
 
   return (
-    <motion.div
-      style={{
-        position: 'fixed',
-        left: 0,
-        top: 0,
-        x: cursorX,
-        y: cursorY,
-        width: 32,
-        height: 32,
-        borderRadius: '50%',
-        border: '1px solid var(--accent)',
-        pointerEvents: 'none',
-        zIndex: 9999,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: isHovering ? 'var(--accent-transparent)' : 'transparent',
-      }}
-      animate={{
-        scale: isHovering ? 1.5 : 1,
-        borderColor: isHovering ? 'transparent' : 'var(--accent)',
-        backgroundColor: isHovering ? 'rgba(32, 217, 210, 0.2)' : 'transparent',
-      }}
-      transition={{ type: 'tween', duration: 0.15 }}
-    >
+    <>
+      {/* Outer crosshair frame */}
       <motion.div
         style={{
-          width: 4,
-          height: 4,
-          backgroundColor: 'var(--accent)',
-          borderRadius: '50%',
+          position: 'fixed',
+          left: 0,
+          top: 0,
+          x: cursorX,
+          y: cursorY,
+          width: 32,
+          height: 32,
+          pointerEvents: 'none',
+          zIndex: 9999,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
         animate={{
-          scale: isHovering ? 0 : 1,
+          scale: isHovering ? 1.5 : 1,
+          rotate: isHovering ? 45 : 0
         }}
-      />
-    </motion.div>
+        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+      >
+        <div style={{ position: 'absolute', width: '100%', height: '1px', backgroundColor: isHovering ? 'var(--accent)' : 'rgba(255,255,255,0.2)' }} />
+        <div style={{ position: 'absolute', width: '1px', height: '100%', backgroundColor: isHovering ? 'var(--accent)' : 'rgba(255,255,255,0.2)' }} />
+        
+        {/* Corner accents */}
+        <div style={{ position: 'absolute', top: 0, left: 0, width: '4px', height: '4px', borderTop: '1px solid var(--accent)', borderLeft: '1px solid var(--accent)' }} />
+        <div style={{ position: 'absolute', top: 0, right: 0, width: '4px', height: '4px', borderTop: '1px solid var(--accent)', borderRight: '1px solid var(--accent)' }} />
+        <div style={{ position: 'absolute', bottom: 0, left: 0, width: '4px', height: '4px', borderBottom: '1px solid var(--accent)', borderLeft: '1px solid var(--accent)' }} />
+        <div style={{ position: 'absolute', bottom: 0, right: 0, width: '4px', height: '4px', borderBottom: '1px solid var(--accent)', borderRight: '1px solid var(--accent)' }} />
+      </motion.div>
+
+      {/* Inner dot */}
+      <motion.div
+        style={{
+          position: 'fixed',
+          left: 0,
+          top: 0,
+          x: cursorX,
+          y: cursorY,
+          width: 32,
+          height: 32,
+          pointerEvents: 'none',
+          zIndex: 9999,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <motion.div
+          style={{
+            width: 4,
+            height: 4,
+            backgroundColor: 'var(--accent)',
+            borderRadius: '0', // Square dot
+          }}
+          animate={{
+            scale: isHovering ? 0 : 1,
+          }}
+        />
+      </motion.div>
+    </>
   );
 };
 

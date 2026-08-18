@@ -1,109 +1,191 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence, useScroll } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
-import { motion } from 'framer-motion';
-import '../index.css';
 
-const MagneticButton = ({ children, href, className, style, onClick }) => {
-  return (
-    <motion.a 
-      href={href} 
-      className={className} 
-      style={style}
-      onClick={onClick}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      transition={{ type: "spring", stiffness: 400, damping: 10 }}
-    >
-      {children}
-    </motion.a>
-  );
-};
+const navLinks = [
+  { name: 'About',        href: '#about',        id: 'about' },
+  { name: 'Skills',       href: '#skills',       id: 'skills' },
+  { name: 'Projects',     href: '#projects',     id: 'projects' },
+  { name: 'Education',    href: '#education',    id: 'education' },
+  { name: 'Certifications', href: '#certifications', id: 'certifications' },
+  { name: 'Contact',      href: '#contact',      id: 'contact' },
+];
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen]           = useState(false);
+  const [scrolled, setScrolled]       = useState(false);
+  const [activeSection, setActiveSection] = useState('');
+  const { scrollY } = useScroll();
 
-  const navLinks = [
-    { name: 'ABOUT', href: '#about' },
-    { name: 'SKILLS', href: '#skills' },
-    { name: 'PROJECTS', href: '#projects' },
-    { name: 'EDUCATION', href: '#education' },
-    { name: 'CONTACT', href: '#contact' },
-  ];
+  useEffect(() => {
+    const unsubscribe = scrollY.on('change', (v) => setScrolled(v > 50));
+    return () => unsubscribe();
+  }, [scrollY]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = navLinks.map(l => document.getElementById(l.id)).filter(Boolean);
+      const pos = window.scrollY + window.innerHeight / 3;
+      for (let i = sections.length - 1; i >= 0; i--) {
+        if (sections[i].offsetTop <= pos) { setActiveSection(sections[i].id); break; }
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <nav style={{
-      position: 'sticky',
-      top: 0,
-      zIndex: 1000,
-      backgroundColor: 'rgba(8, 10, 15, 0.9)',
-      backdropFilter: 'blur(10px)',
-      borderBottom: 'var(--border-subtle)',
-      height: 'var(--nav-height)'
-    }}>
-      <div className="container" style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        height: '100%'
-      }}>
-        <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 'bold', fontSize: '1.2rem' }}>
-          ABHILASH<span className="accent-text">.</span>
-        </div>
+    <>
+      <motion.header
+        style={{
+          position: 'fixed',
+          top: 0, left: 0, right: 0,
+          zIndex: 1000,
+          height: 'var(--nav-height)',
+          display: 'flex',
+          alignItems: 'center',
+          transition: 'background 0.3s, border-color 0.3s, backdrop-filter 0.3s',
+          background: scrolled ? 'rgba(9, 12, 18, 0.85)' : 'transparent',
+          backdropFilter: scrolled ? 'blur(20px)' : 'none',
+          WebkitBackdropFilter: scrolled ? 'blur(20px)' : 'none',
+          borderBottom: scrolled ? '1px solid rgba(255,255,255,0.07)' : '1px solid transparent',
+        }}
+      >
+        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
 
-        {/* Desktop Nav */}
-        <div style={{ display: 'none' }} className="desktop-nav">
-          <ul style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
+          {/* Brand */}
+          <a href="#hero" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
+            <div style={{
+              width: '32px', height: '32px',
+              background: 'var(--accent)',
+              borderRadius: '8px',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontFamily: 'var(--font-display)',
+              fontWeight: '800', fontSize: '0.85rem', color: '#070a10',
+              letterSpacing: '-0.02em',
+              flexShrink: 0,
+            }}>
+              AG
+            </div>
+            <span style={{
+              fontFamily: 'var(--font-display)',
+              fontWeight: '700',
+              fontSize: 'var(--text-base)',
+              color: 'var(--text-primary)',
+              letterSpacing: '-0.01em',
+            }}>
+              Abhilash<span style={{ color: 'var(--accent)' }}>.</span>
+            </span>
+          </a>
+
+          {/* Desktop Nav */}
+          <nav className="desktop-nav" style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
             {navLinks.map((link) => (
-              <li key={link.name}>
-                <a href={link.href} className="mono-text" style={{ fontSize: '0.8rem', transition: 'color 0.3s' }}>
-                  {link.name}
-                </a>
-              </li>
+              <a
+                key={link.id}
+                href={link.href}
+                style={{
+                  fontSize: 'var(--text-sm)',
+                  fontWeight: activeSection === link.id ? '600' : '400',
+                  color: activeSection === link.id ? 'var(--text-primary)' : 'var(--text-secondary)',
+                  transition: 'color 0.2s',
+                  position: 'relative',
+                  paddingBottom: '2px',
+                }}
+                onMouseEnter={e => e.currentTarget.style.color = 'var(--text-primary)'}
+                onMouseLeave={e => e.currentTarget.style.color = activeSection === link.id ? 'var(--text-primary)' : 'var(--text-secondary)'}
+              >
+                {link.name}
+                {activeSection === link.id && (
+                  <motion.div
+                    layoutId="navUnderline"
+                    style={{
+                      position: 'absolute', bottom: '-2px', left: 0, right: 0,
+                      height: '2px', background: 'var(--accent)', borderRadius: '2px',
+                    }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                  />
+                )}
+              </a>
             ))}
-            <li>
-              <MagneticButton href="#contact" className="btn btn-primary" style={{ padding: '0.5rem 1rem', fontSize: '0.8rem' }}>
-                LET'S CONNECT
-              </MagneticButton>
-            </li>
-          </ul>
-        </div>
+          </nav>
 
-        {/* Mobile Toggle */}
-        <div className="mobile-toggle" style={{ display: 'block', cursor: 'pointer' }} onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? <X color="var(--text-primary)" /> : <Menu color="var(--text-primary)" />}
-        </div>
-      </div>
+          {/* CTA + Mobile Toggle */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-3)' }}>
+            <a href="#contact" className="btn btn-primary desktop-nav" style={{ padding: '0.55rem 1.25rem', fontSize: 'var(--text-sm)' }}>
+              Hire Me
+            </a>
+            <button
+              id="mobile-menu-toggle"
+              className="mobile-toggle"
+              onClick={() => setIsOpen(!isOpen)}
+              style={{ background: 'none', border: 'none', color: 'var(--text-primary)', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+              aria-label="Toggle menu"
+            >
+              {isOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
+          </div>
 
-      {/* Mobile Nav */}
-      {isOpen && (
-        <div style={{
-          position: 'absolute',
-          top: 'var(--nav-height)',
-          left: 0,
-          right: 0,
-          backgroundColor: 'var(--bg-secondary)',
-          padding: '2rem',
-          borderBottom: 'var(--border-subtle)'
-        }}>
-          <ul style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', alignItems: 'center' }}>
+        </div>
+      </motion.header>
+
+      {/* Mobile Drawer */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            id="mobile-nav-drawer"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            style={{
+              position: 'fixed',
+              top: 'var(--nav-height)',
+              left: 0, right: 0,
+              zIndex: 999,
+              background: 'rgba(9, 12, 18, 0.97)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              borderBottom: '1px solid rgba(255,255,255,0.07)',
+              padding: 'var(--sp-6) var(--sp-5) var(--sp-8)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 'var(--sp-1)',
+            }}
+          >
             {navLinks.map((link) => (
-              <li key={link.name}>
-                <a href={link.href} className="mono-text" onClick={() => setIsOpen(false)}>
-                  {link.name}
-                </a>
-              </li>
+              <a
+                key={link.id}
+                href={link.href}
+                onClick={() => setIsOpen(false)}
+                style={{
+                  padding: 'var(--sp-4) var(--sp-2)',
+                  fontSize: 'var(--text-lg)',
+                  fontWeight: '500',
+                  color: activeSection === link.id ? 'var(--accent)' : 'var(--text-primary)',
+                  borderBottom: '1px solid rgba(255,255,255,0.05)',
+                  transition: 'color 0.2s',
+                }}
+              >
+                {link.name}
+              </a>
             ))}
-          </ul>
-        </div>
-      )}
-      
+            <a href="#contact" onClick={() => setIsOpen(false)} className="btn btn-primary" style={{ marginTop: 'var(--sp-4)', justifyContent: 'center' }}>
+              Hire Me
+            </a>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <style>{`
-        @media (min-width: 768px) {
-          .desktop-nav { display: block !important; }
+        .desktop-nav { display: none !important; }
+        .mobile-toggle { display: flex; }
+        @media (min-width: 900px) {
+          .desktop-nav { display: flex !important; }
           .mobile-toggle { display: none !important; }
         }
       `}</style>
-    </nav>
+    </>
   );
 };
 
