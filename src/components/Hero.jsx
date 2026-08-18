@@ -195,7 +195,7 @@ const Hero = () => {
                 aspectRatio: '4/5',
               }}>
                 <img
-                  src="/profile.jpg"
+                  src={`${import.meta.env.BASE_URL}profile.jpg`}
                   alt="Abhilash Gollapally"
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
