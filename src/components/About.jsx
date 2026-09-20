@@ -60,7 +60,7 @@ const About = () => {
               perspective on writing code that considers threats from the start.
             </p>
 
-            <div style={{ display: 'flex', gap: 'var(--sp-3)', marginTop: 'var(--sp-8)' }}>
+            <div className="about-cta-row" style={{ display: 'flex', gap: 'var(--sp-3)', marginTop: 'var(--sp-8)' }}>
               <a href="#projects" className="btn btn-primary">View Projects</a>
               <a href="#contact" className="btn btn-outline">Get in Touch</a>
             </div>
@@ -77,6 +77,7 @@ const About = () => {
               gridTemplateColumns: '1fr 1fr',
               gap: 'var(--sp-4)',
             }}
+            className="about-stats-grid"
           >
             {stats.map((stat, i) => (
               <motion.div
@@ -134,6 +135,22 @@ const About = () => {
       <style>{`
         @media (max-width: 768px) {
           .about-grid { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 480px) {
+          .about-cta-row {
+            flex-direction: column !important;
+            align-items: stretch !important;
+          }
+          .about-cta-row a {
+            text-align: center !important;
+            justify-content: center !important;
+          }
+          .about-stats-grid {
+            gap: var(--sp-2) !important;
+          }
+          .about-stats-grid .card {
+            padding: var(--sp-4) var(--sp-3) !important;
+          }
         }
       `}</style>
     </section>

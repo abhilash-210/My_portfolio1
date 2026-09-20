@@ -25,7 +25,7 @@ const Education = () => {
         <div style={{ position: 'relative', maxWidth: '760px' }}>
 
           {/* Vertical line */}
-          <div style={{
+          <div className="edu-line" style={{
             position: 'absolute',
             left: '19px',
             top: '10px',
@@ -43,10 +43,11 @@ const Education = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: '-60px' }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="edu-item"
                 style={{ display: 'flex', gap: 'var(--sp-6)', alignItems: 'flex-start' }}
               >
                 {/* Timeline node */}
-                <div style={{
+                <div className="edu-node" style={{
                   flexShrink: 0,
                   width: '40px',
                   height: '40px',
@@ -64,7 +65,7 @@ const Education = () => {
                 </div>
 
                 {/* Content card */}
-                <div className="card" style={{
+                <div className="card edu-card" style={{
                   flex: 1,
                   padding: 'var(--sp-5) var(--sp-6)',
                   borderColor: index === 0 ? 'rgba(0,217,192,0.25)' : undefined,
@@ -118,6 +119,24 @@ const Education = () => {
         </div>
 
       </div>
+      <style>{`
+        @media (max-width: 480px) {
+          .edu-line {
+            left: 15px !important;
+          }
+          .edu-node {
+            width: 32px !important;
+            height: 32px !important;
+          }
+          .edu-node svg {
+            width: 14px !important;
+            height: 14px !important;
+          }
+          .edu-item {
+            gap: var(--sp-3) !important;
+          }
+        }
+      `}</style>
     </section>
   );
 };

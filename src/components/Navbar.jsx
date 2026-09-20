@@ -8,6 +8,7 @@ const navLinks = [
   { name: 'Projects',     href: '#projects',     id: 'projects' },
   { name: 'Education',    href: '#education',    id: 'education' },
   { name: 'Certifications', href: '#certifications', id: 'certifications' },
+  { name: 'Extra-Curricular', href: '#extracurricular', id: 'extracurricular' },
   { name: 'Contact',      href: '#contact',      id: 'contact' },
 ];
 
@@ -129,51 +130,91 @@ const Navbar = () => {
         </div>
       </motion.header>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Backdrop & Drawer */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div
-            id="mobile-nav-drawer"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            style={{
-              position: 'fixed',
-              top: 'var(--nav-height)',
-              left: 0, right: 0,
-              zIndex: 999,
-              background: 'rgba(9, 12, 18, 0.97)',
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
-              borderBottom: '1px solid rgba(255,255,255,0.07)',
-              padding: 'var(--sp-6) var(--sp-5) var(--sp-8)',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 'var(--sp-1)',
-            }}
-          >
-            {navLinks.map((link) => (
+          <>
+            {/* Backdrop overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setIsOpen(false)}
+              style={{
+                position: 'fixed',
+                inset: 0,
+                top: 'var(--nav-height)',
+                zIndex: 998,
+                background: 'rgba(0, 0, 0, 0.65)',
+                backdropFilter: 'blur(4px)',
+                WebkitBackdropFilter: 'blur(4px)',
+              }}
+            />
+
+            {/* Mobile Drawer */}
+            <motion.div
+              id="mobile-nav-drawer"
+              initial={{ opacity: 0, y: -12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.22, ease: 'easeOut' }}
+              style={{
+                position: 'fixed',
+                top: 'var(--nav-height)',
+                left: 0, right: 0,
+                zIndex: 999,
+                background: 'rgba(9, 12, 18, 0.98)',
+                backdropFilter: 'blur(24px)',
+                WebkitBackdropFilter: 'blur(24px)',
+                borderBottom: '1px solid rgba(0, 217, 192, 0.2)',
+                boxShadow: '0 20px 40px rgba(0, 0, 0, 0.5)',
+                padding: 'var(--sp-4) var(--sp-5) var(--sp-6)',
+                maxHeight: 'calc(100vh - var(--nav-height))',
+                overflowY: 'auto',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 'var(--sp-1)',
+              }}
+            >
+              {navLinks.map((link) => {
+                const isActive = activeSection === link.id;
+                return (
+                  <a
+                    key={link.id}
+                    href={link.href}
+                    onClick={() => setIsOpen(false)}
+                    style={{
+                      padding: 'var(--sp-3) var(--sp-3)',
+                      fontSize: 'var(--text-base)',
+                      fontWeight: isActive ? '600' : '400',
+                      color: isActive ? 'var(--accent)' : 'var(--text-primary)',
+                      borderBottom: '1px solid rgba(255,255,255,0.04)',
+                      borderRadius: 'var(--radius-sm)',
+                      background: isActive ? 'var(--accent-dim)' : 'transparent',
+                      transition: 'all 0.15s ease',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                    }}
+                  >
+                    <span>{link.name}</span>
+                    {isActive && (
+                      <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--accent)' }} />
+                    )}
+                  </a>
+                );
+              })}
               <a
-                key={link.id}
-                href={link.href}
+                href="#contact"
                 onClick={() => setIsOpen(false)}
-                style={{
-                  padding: 'var(--sp-4) var(--sp-2)',
-                  fontSize: 'var(--text-lg)',
-                  fontWeight: '500',
-                  color: activeSection === link.id ? 'var(--accent)' : 'var(--text-primary)',
-                  borderBottom: '1px solid rgba(255,255,255,0.05)',
-                  transition: 'color 0.2s',
-                }}
+                className="btn btn-primary"
+                style={{ marginTop: 'var(--sp-4)', justifyContent: 'center', minHeight: '44px' }}
               >
-                {link.name}
+                Hire Me
               </a>
-            ))}
-            <a href="#contact" onClick={() => setIsOpen(false)} className="btn btn-primary" style={{ marginTop: 'var(--sp-4)', justifyContent: 'center' }}>
-              Hire Me
-            </a>
-          </motion.div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
 

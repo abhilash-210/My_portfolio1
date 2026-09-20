@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { personalInfo } from '../data/portfolio';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
+import { SiLeetcode } from 'react-icons/si';
 import { Mail, MapPin, ArrowRight } from 'lucide-react';
 
 const contactLinks = [
@@ -35,11 +36,21 @@ const contactLinks = [
     bg: 'rgba(52,211,153,0.1)',
     border: 'rgba(52,211,153,0.2)',
   },
+  {
+    id: 'leetcode-link',
+    icon: SiLeetcode,
+    label: 'LeetCode',
+    value: 'leetcode.com/u/Abhilashgp',
+    href: 'https://leetcode.com/u/Abhilashgp/',
+    color: '#fbbf24',
+    bg: 'rgba(251,191,36,0.1)',
+    border: 'rgba(251,191,36,0.2)',
+  },
 ];
 
 const Contact = () => {
   return (
-    <section id="contact" className="section">
+    <section id="contact" className="section section-alt">
       <div className="container">
 
         <div style={{

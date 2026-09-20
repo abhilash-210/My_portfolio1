@@ -1,6 +1,42 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { skills } from '../data/portfolio';
+import { 
+  FaJava, FaPython, FaHtml5, FaCss3Alt, FaJs, FaGitAlt, FaGithub, FaRaspberryPi,
+  FaDatabase, FaCube, FaProjectDiagram, FaCodeBranch, FaBrain, FaShieldAlt, FaServer, FaSpaceShuttle, FaRobot
+} from 'react-icons/fa';
+import { 
+  SiC, SiFlask, SiMqtt, SiMysql, SiSupabase, SiRender, SiGithubcopilot, SiVercel, SiAnthropic
+} from 'react-icons/si';
+
+const iconMap = {
+  "Java": FaJava,
+  "Python": FaPython,
+  "C": SiC,
+  "HTML5": FaHtml5,
+  "CSS3": FaCss3Alt,
+  "JavaScript": FaJs,
+  "Flask": SiFlask,
+  "REST API": FaServer,
+  "MQTT": SiMqtt,
+  "MySQL": SiMysql,
+  "SQL": FaDatabase,
+  "Supabase": SiSupabase,
+  "Git": FaGitAlt,
+  "GitHub": FaGithub,
+  "Render": SiRender,
+  "Raspberry Pi": FaRaspberryPi,
+  "GitHub Copilot": SiGithubcopilot,
+  "Vercel": SiVercel,
+  "ChatGPT": FaRobot,
+  "Claude": SiAnthropic,
+  "Antigravity": FaSpaceShuttle,
+  "OOP": FaCube,
+  "Data Structures": FaProjectDiagram,
+  "Algorithms": FaCodeBranch,
+  "AI/ML": FaBrain,
+  "Cybersecurity": FaShieldAlt
+};
 
 // Map category names to accent colors / icons for visual variety
 const categoryConfig = {
@@ -8,8 +44,7 @@ const categoryConfig = {
   Frontend:   { color: '#a78bfa', bg: 'rgba(167,139,250,0.1)', border: 'rgba(167,139,250,0.25)' },
   Backend:    { color: '#34d399', bg: 'rgba(52,211,153,0.1)',  border: 'rgba(52,211,153,0.25)' },
   Databases:  { color: '#fb923c', bg: 'rgba(251,146,60,0.1)',  border: 'rgba(251,146,60,0.25)' },
-  Libraries:  { color: '#f472b6', bg: 'rgba(244,114,182,0.1)', border: 'rgba(244,114,182,0.25)' },
-  Tools:      { color: '#facc15', bg: 'rgba(250,204,21,0.1)',  border: 'rgba(250,204,21,0.25)' },
+  "Tools & Development platforms": { color: '#facc15', bg: 'rgba(250,204,21,0.1)',  border: 'rgba(250,204,21,0.25)' },
   Core:       { color: 'var(--accent)', bg: 'var(--accent-dim)', border: 'rgba(0,217,192,0.25)' },
 };
 
@@ -36,7 +71,7 @@ const Skills = () => {
           </p>
         </motion.div>
 
-        <div style={{
+        <div className="skills-grid" style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fill, minmax(min(300px, 100%), 1fr))',
           gap: 'var(--sp-5)',
@@ -74,29 +109,35 @@ const Skills = () => {
 
                 {/* Skill pills */}
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--sp-2)' }}>
-                  {skills[category].map((skill) => (
-                    <motion.span
-                      key={skill}
-                      whileHover={{ scale: 1.05 }}
-                      style={{
-                        display: 'inline-flex',
-                        padding: '0.3rem 0.8rem',
-                        borderRadius: '100px',
-                        fontSize: 'var(--text-sm)',
-                        fontWeight: '500',
-                        background: cfg.bg,
-                        border: `1px solid ${cfg.border}`,
-                        color: 'var(--text-secondary)',
-                        cursor: 'default',
-                        transition: 'color 0.2s',
-                        userSelect: 'none',
-                      }}
-                      onMouseEnter={e => e.currentTarget.style.color = cfg.color}
-                      onMouseLeave={e => e.currentTarget.style.color = 'var(--text-secondary)'}
-                    >
-                      {skill}
-                    </motion.span>
-                  ))}
+                  {skills[category].map((skill) => {
+                    const Icon = iconMap[skill];
+                    return (
+                      <motion.span
+                        key={skill}
+                        whileHover={{ scale: 1.05 }}
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '0.4rem',
+                          padding: '0.3rem 0.8rem',
+                          borderRadius: '100px',
+                          fontSize: 'var(--text-sm)',
+                          fontWeight: '500',
+                          background: cfg.bg,
+                          border: `1px solid ${cfg.border}`,
+                          color: 'var(--text-secondary)',
+                          cursor: 'default',
+                          transition: 'color 0.2s',
+                          userSelect: 'none',
+                        }}
+                        onMouseEnter={e => e.currentTarget.style.color = cfg.color}
+                        onMouseLeave={e => e.currentTarget.style.color = 'var(--text-secondary)'}
+                      >
+                        {Icon && <Icon size={14} />}
+                        {skill}
+                      </motion.span>
+                    );
+                  })}
                 </div>
               </motion.div>
             );

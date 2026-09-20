@@ -102,13 +102,13 @@ const Hero = () => {
               marginBottom: 'var(--sp-8)',
               color: 'var(--text-secondary)',
             }}>
-              Final-year CSE (Cyber Security) student skilled in Java, Python, and React.js —
+              Final-year CSE (Cyber Security) student skilled in Java and Python —
               building full-stack, AI-enabled, and security-focused applications.
               Seeking a Trainee Software Engineer role.
             </motion.p>
 
             {/* Location */}
-            <motion.div {...fadeUp(0.35)} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: 'var(--text-muted)', fontSize: 'var(--text-sm)', marginBottom: 'var(--sp-8)' }}>
+            <motion.div {...fadeUp(0.35)} className="hero-location" style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: 'var(--text-muted)', fontSize: 'var(--text-sm)', marginBottom: 'var(--sp-8)' }}>
               <MapPin size={14} />
               <span>{personalInfo.location}</span>
             </motion.div>
@@ -219,7 +219,7 @@ const Hero = () => {
               </div>
 
               {/* Stats row below photo */}
-              <div style={{
+              <div className="hero-stats-grid" style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(3, 1fr)',
                 gap: 'var(--sp-3)',
@@ -254,17 +254,36 @@ const Hero = () => {
         @media (max-width: 900px) {
           .hero-grid {
             grid-template-columns: 1fr !important;
-            padding-top: var(--sp-8) !important;
+            gap: var(--sp-8) !important;
+            padding-top: var(--sp-6) !important;
             padding-bottom: var(--sp-8) !important;
           }
           .hero-card-col {
-            display: none !important;
+            display: flex !important;
+            justify-content: center;
+            width: 100%;
+            margin-top: var(--sp-4);
+          }
+          .hero-card-col > div {
+            max-width: 320px !important;
           }
         }
-        @media (max-width: 480px) {
+        @media (max-width: 600px) {
+          .hero-grid {
+            gap: var(--sp-6) !important;
+          }
+          .hero-grid > div:first-child {
+            text-align: center;
+          }
+          .hero-grid > div:first-child p {
+            margin-left: auto;
+            margin-right: auto;
+          }
+          .hero-location {
+            justify-content: center;
+          }
           .hero-social-links {
-            flex-wrap: wrap;
-            gap: var(--sp-3) !important;
+            justify-content: center;
           }
           .hero-cta-row {
             flex-direction: column;
@@ -273,6 +292,18 @@ const Hero = () => {
           .hero-cta-row a {
             text-align: center;
             justify-content: center;
+          }
+          .hero-card-col > div {
+            max-width: 290px !important;
+          }
+        }
+        @media (max-width: 480px) {
+          .hero-social-links {
+            flex-wrap: wrap;
+            gap: var(--sp-3) !important;
+          }
+          .hero-stats-grid {
+            gap: var(--sp-2) !important;
           }
         }
       `}</style>

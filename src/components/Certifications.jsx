@@ -128,27 +128,7 @@ const Certifications = () => {
               ))}
             </div>
 
-            {/* Extra info box */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.4 }}
-              style={{
-                marginTop: 'var(--sp-8)',
-                padding: 'var(--sp-5)',
-                background: 'var(--accent-dim)',
-                border: '1px solid rgba(0,217,192,0.2)',
-                borderRadius: 'var(--radius-md)',
-              }}
-            >
-              <div style={{ fontSize: 'var(--text-sm)', color: 'var(--accent)', fontWeight: '600', marginBottom: 'var(--sp-2)' }}>
-                Currently Active
-              </div>
-              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', lineHeight: '1.65' }}>
-                Sphoorthy Engineering College — School of Computing Internship (Ongoing)
-              </p>
-            </motion.div>
+
           </div>
 
         </div>
@@ -156,7 +136,10 @@ const Certifications = () => {
 
       <style>{`
         @media (max-width: 768px) {
-          .certs-grid { grid-template-columns: 1fr !important; }
+          .certs-grid {
+            grid-template-columns: 1fr !important;
+            gap: var(--sp-8) !important;
+          }
         }
       `}</style>
     </section>

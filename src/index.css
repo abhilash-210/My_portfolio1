@@ -294,7 +294,7 @@ img {
 }
 
 /* ============================================================
-   RESPONSIVE
+   RESPONSIVE — COMPREHENSIVE MOBILE FIRST
    ============================================================ */
 
 /* Prevent horizontal scroll on all screens */
@@ -302,13 +302,21 @@ html, body {
   overflow-x: hidden;
 }
 
+/* ── Tablet (≤ 1024px) ── */
 @media (max-width: 1024px) {
   .container {
     padding: 0 var(--sp-6);
   }
+  .section {
+    padding: var(--sp-24) 0;
+  }
 }
 
+/* ── Tablet Portrait (≤ 768px) ── */
 @media (max-width: 768px) {
+  :root {
+    --nav-height: 64px;
+  }
   .container {
     padding: 0 var(--sp-5);
   }
@@ -321,14 +329,36 @@ html, body {
   .display-heading {
     font-size: clamp(var(--text-3xl), 8vw, var(--text-5xl));
   }
-
-  /* Card hover lifts — disable on touch */
+  /* Disable hover lifts on touch */
   .card:hover {
     transform: none;
+    box-shadow: none;
+  }
+  /* About grid: stack columns */
+  .about-grid {
+    grid-template-columns: 1fr !important;
+    gap: var(--sp-10) !important;
+  }
+  /* Skills grid: 2 columns */
+  .skills-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  /* Projects grid: 1 column */
+  .projects-grid {
+    grid-template-columns: 1fr !important;
+  }
+  /* Contact grid: stack */
+  .contact-grid {
+    grid-template-columns: 1fr !important;
+    gap: var(--sp-8) !important;
   }
 }
 
+/* ── Mobile (≤ 480px) ── */
 @media (max-width: 480px) {
+  :root {
+    --nav-height: 60px;
+  }
   .container {
     padding: 0 var(--sp-4);
   }
@@ -338,15 +368,83 @@ html, body {
   .section-heading {
     font-size: clamp(var(--text-xl), 8vw, var(--text-3xl));
   }
-
-  /* Touch-friendly buttons */
-  .btn {
-    padding: 0.8rem 1.5rem;
-    min-height: 44px;
+  .section-label {
+    font-size: 0.68rem;
   }
-
-  /* Badge text wrap prevention */
+  /* Touch-friendly minimum tap targets */
+  .btn {
+    padding: 0.85rem 1.4rem;
+    min-height: 48px;
+    font-size: var(--text-sm);
+    border-radius: 8px;
+  }
+  /* Badge text wrapping */
   .badge {
     white-space: nowrap;
+    font-size: 0.7rem;
+    padding: 0.25rem 0.6rem;
+  }
+  .skill-pill {
+    font-size: 0.78rem;
+    padding: 0.35rem 0.8rem;
+  }
+  /* Skills: single column on very small screens */
+  .skills-grid {
+    grid-template-columns: 1fr !important;
+  }
+  /* Education / Certifications cards */
+  .edu-card, .cert-card {
+    padding: var(--sp-4) !important;
+  }
+  /* Stats row in hero */
+  .hero-stats-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: var(--sp-2) !important;
+  }
+  .hero-stats-grid .card {
+    padding: var(--sp-2) var(--sp-1) !important;
+  }
+  /* CTA row: stack buttons */
+  .hero-cta-row {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: var(--sp-3) !important;
+  }
+  .hero-cta-row a {
+    text-align: center;
+    justify-content: center;
+  }
+  /* Social links: wrap */
+  .hero-social-links {
+    flex-wrap: wrap !important;
+    gap: var(--sp-3) !important;
+  }
+  /* Extra curricular cards: full width */
+  .ec-grid {
+    grid-template-columns: 1fr !important;
+  }
+  /* Footer links: stack */
+  .footer-links {
+    flex-direction: column !important;
+    gap: var(--sp-3) !important;
+    align-items: center !important;
+  }
+  /* Certifications: 1 column */
+  .certs-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ── Very Small (≤ 360px) ── */
+@media (max-width: 360px) {
+  .container {
+    padding: 0 var(--sp-3);
+  }
+  .btn {
+    padding: 0.75rem 1rem;
+    font-size: 0.8rem;
+  }
+  .hero-stats-grid {
+    gap: var(--sp-1) !important;
   }
 }

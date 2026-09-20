@@ -172,7 +172,7 @@ const Projects = () => {
           </p>
         </motion.div>
 
-        <div style={{
+        <div className="projects-grid" style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fill, minmax(min(320px, 100%), 1fr))',
           gap: 'var(--sp-5)',
